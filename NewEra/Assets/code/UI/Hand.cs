@@ -13,9 +13,6 @@ namespace UINS {
         [Tooltip("If a card moves on its position it is lerped to its new position with this speed")]
         public float cardLerpSpeed = 10f;
 
-        
-
-        //public Vector2 padding = Vector2.zero;
         public Vector2 offset = Vector2.zero;
 
         public GameObject container;
@@ -25,8 +22,6 @@ namespace UINS {
         // Use this for initialization
         void Start()
         {
-            //RefreshCards();
-
             //move from the middle
             foreach (Card c in cards)
             {
@@ -41,7 +36,6 @@ namespace UINS {
             if(activeCard == null) {
                 return;
             }
-
             foreach(Card c in cards)
             {
                 c.gameObject.SetActive(c == activeCard);
@@ -95,7 +89,6 @@ namespace UINS {
         public void HandCardsChange(GameEvent gammeEvent)
         {
             Deck handDeck = (Deck)gammeEvent.GetData("deck").dataObject;
-            
             ResetHand();
 
             //build new cards
@@ -105,7 +98,6 @@ namespace UINS {
                 cards.Add(nwCard);
                 nwCard.transform.SetParent(this.container.transform);
             }
-
             RefreshCardPositions();
         }
 
@@ -121,47 +113,13 @@ namespace UINS {
             cards = new List<Card>();
         }
 
-
-        /*
-        public void RemoveAllCards()
-        {
-            // remove all child objects
-            foreach (Transform child in container.transform)
-            {
-                GameObject.Destroy(child.gameObject);
-            }
-            // empty card list
-            cards = new List<Card>();
-        }
-
-
-        public void GainCard(CardData cardData)
-        {
-            Card nwCard = (CardBase.CreateCard(cardData)).GetComponent<Card>();
-            cards.Add(nwCard);
-            nwCard.transform.SetParent(this.container.transform);
-
-            RefreshCardPositions();
-        }*/
-
-
+        
         private void RefreshCardPositions()
         {
             if (cards.Count <= 0)
             {
                 return;
             }
-            /*
-            float previousElementsX = padding.x;
-            for(int i=0; i < cards.Count; i++)
-            {
-                Card currentCard = cards[i];
-                Vector2 nwPosition = new Vector2(previousElementsX, padding.y);
-                float currentCardScale = currentCard.transform.localScale.x;
-                float currentCardSize = ((RectTransform)currentCard.transform).sizeDelta.x;
-                previousElementsX += offset.x + (currentCardScale * currentCardSize);
-                currentCard.transform.localPosition = nwPosition;
-            }*/
             float totalWidth = 0;
             Card currentCard;
 
@@ -178,8 +136,7 @@ namespace UINS {
             totalWidth += (cards.Count - 1) * offset.x; // all cards have a offset to the next card, except the last card
 
             float positionX = this.container.transform.position.x - (totalWidth / 2f);
-
-
+            
             // set the positions
             for (int i = 0; i < cards.Count; i++)
             {
@@ -189,21 +146,8 @@ namespace UINS {
 
                 //set the position
                 Vector2 nwPosition = new Vector2(positionX, this.container.transform.position.y);
-                //currentCard.transform.position = nwPosition;
-
                 currentCard.transform.position = Vector2.Lerp(currentCard.transform.position, nwPosition, cardLerpSpeed * Time.deltaTime);
-
                 positionX += (cardSize.x / 2f) + offset.x;
-
-                /*
-                float cardScale = currentCard.transform.localScale.x;
-                float cardBaseSize = ((RectTransform)currentCard.transform).sizeDelta.x;
-                float cardSize = cardBaseSize * cardScale;
-                positionX += (cardSize + offset.x) / 2f;
-                */
-                //Vector2 nwPosition = new Vector2(positionX, this.container.transform.position.y); //TODO Y
-
-                //currentCard.transform.position = nwPosition;
             }
         }
 
