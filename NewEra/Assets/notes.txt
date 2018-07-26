@@ -1,0 +1,52 @@
+TODO:
+
+Cards
+- Cards are created from a blueprint CardBase(scriptable object) and then CardData is used at runtime  >>> NEVER change anything on CardBase at runtime!
+- Then the CardBase is no longer used at runtime
+
+
+In een BuildingBlockChain
+	- List<DataRequired> preDataRequired;
+		inner class DataRequired
+		- ObjectType
+		- currentData
+	Als PlayCardsFromHand een Card wil spelen die preDataRequired heeft en de 'currentData' is nog niet gezet, Ga dit dan solven. De kaart kan pas gespeeld worden als alle preDataRequired is gezet.
+	- optioneel: Als een kaart word gespeeld waar de preDataRequired nog niet gezet is>>> solve dan elk type data met random Data
+	- NOTE: als later een AI speler kaarten wil solven kan die ook kijken na preDataRequired en adhv dit de meest strategische keuzes bepalen en dan de data setten.
+	- NOTE2: PlayCardsFromHand >>> naam wijzigen in PlayerController?
+		- optioneel/later: Aan kaarten/objecten een Player Object meegegeven, wie zijn owner is.
+
+
+======================================== Events ======================================================
+- BaseEvents zijn Scriptable Objects en worden aangemaakt in data/events
+- BaseEventListener worden toegevoegd om naar bepaalde events te luisteren. Op het moment dat ze enabled
+	worden subscriben ze zich aan een bepaald event.
+- Vanuit custom scripts kan een event raised (fired) worden.
+	- Het BaseEvent wordt NIET verstuurd, in plaats daarvan word er een 'GameEvent' aangemaakt, hierop zit
+	  de zelfde info als op een BaseEvent. Met uitzondering van de DataList.
+		- In het BaseEvent.dataTypesRequired word ingesteld welke TYPE objecten dit event vereist. 
+		  Het is aan de code die het event afvuurt om de Raise(..) methode met deze objecten te voorzien in de
+		  parameter met een List<DataHolder>. De Raise(..) controlleerd ook of de List<DataHolder> overheen komt
+		  qua objecten types met BaseEvent.dataTypesRequired en cancelled het event als dit niet het geval is.
+	- Events die afgevuurd worden vanuit custom code zijn 'hardCoded' en mogen niet door een gamedesigner gewijzigd worden,
+		De reden hiervoor is dat er data mee gestuurd word. Via een BuildingBlockChain kan er een 'simpel' event afgevuurd worden.
+		Deze mogen wel aangepast worden door een gamedesigner!
+
+
+=============================================== DataProviders ======================================================
+- Stel op een Card bij presetDataRequired een nieuw objectType in (bv TYPE), laat objectRef null
+- Maak 2 nieuwe events PlayerRequestTYPE en PlayerResponseTYPE 
+	- (dataTypesRequired op event):		Request: "card", Card
+	-									Response: "type", TYPE
+- maak op PlayerSolveCard een extra 'playerDataProvider' aan en stel request en response in met de nieuwe events
+- nu kan je op bv Player een nieuwe object aanmaken met een script en naar de nieuwe events (repsonse, request) luisteren
+
+EXTRA:
+- voeg de events toe aan 'Hand' om de kaart te selecteren als de speler erop klikt
+
+(Gaat automatisch):
+- De cancel button werkt al automatisch en stuurt een generiek PlayerResponseCancel terug als de speler hierop klikt, dit kan de PlayerSolveCard opvangen
+
+TODO?:
+- als de speler een kaart wil solven vanuit PlayerSolveCard> stuur ipv PlayerRequestType (parameter: "card",  Card) een algemeen event: PlayerRequest("Card", card) en laat de specifieke onderdelen hierna luisteren en solven
+adhv het type kaart dat gestuurd word.

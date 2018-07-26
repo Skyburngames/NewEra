@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1359fd1abdbedb846a98fb4a98e6ab5e, type: 3}
+  m_Name: holySite
+  m_EditorClassIdentifier: 
+  baseName: Holy Site
+  image: {fileID: 21300000, guid: d0d46984cfc16e4489cf3f92e2efab23, type: 3}
+  description: birth > destroy a random card from your hand
+  goesIntoNextYear: 1
+  baseBuildingBlockChain:
+    presetDataRequired:
+    - objectType: 1
+      objectRef: {fileID: 0}
+    - objectType: 3
+      objectRef: {fileID: 11400000, guid: 4c92b022382342b4fba22b5f4ebe45da, type: 2}
+    buildingBlocks:
+    - {fileID: 11400000, guid: 8c08d12fb5a1dcb4cbb0678ca4d627af, type: 2}

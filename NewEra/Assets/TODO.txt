@@ -1,0 +1,34 @@
+Technisch:
+Prototype 1:
+-DONE- Show citizens on a building
+-DONE- Maak het mogelijk om acties uit te voeren via een building
+- BaseBuilding>BuildingAction: Add citizen cost en Event waar deze op triggered
+
+- Maak het mogelijk om events af te vuren vanaf:
+	- Spelen van een kaart
+	- Gebouw die getriggered kan worden:
+		- door event
+		- door speler actie (citizen)
+- Maak het mogelijk om nieuwe kaarten toe te voegen vanaf:
+	- een gebouw die getriggered word
+	- het spelen van een kaart
+- Voeg start kaarten aan deck en laat ze overgaan naar Next Year
+
+
+Visueel/Testing:
+- maak een paar gebouwen (3d modellen (standaard)) > die triggeren op elkaar
+- Maak een paar events relevant aan de gebouwen
+- 2 type citizen om te testen
+- Toon op mooie manier de citizen op een gebouw
+
+
+Prototype 2:
+- World decks (ipv next year)
+
+
+
+BUGS:
+
+REFACTOR:
+- store citizen attached to building on the BuildingData (not on Building)
+- maar 1 BuildingPrefab. door hier BuildingData aan te geven word het modelPrefab als child toegevoegd als BuildingGO->model
